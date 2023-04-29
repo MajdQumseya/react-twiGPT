@@ -1,5 +1,42 @@
+import { useState, useEffect } from "react";
+
+
+
 const App = () => {
+
+  const [message, setMessage] = useState(null);
+  const [prompt, setPrompt] = useState(" ");
+
+
+
+  const getMessages = async () => {
+    try {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: prompt
+        })
+      };
+      let fetchResponse = await fetch('http://localhost:8000/completions', options)
+      let data = await fetchResponse.json();
+      console.log(data)
+      setMessage(data.choices[0].message.content)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleInputChange = (e) => {
+    setPrompt(e.target.value)
+  }
+  
+
   return (
+
+    
     <div className="app">
       <section className="side-bar">
         <button>New Chat</button>
@@ -13,11 +50,11 @@ const App = () => {
 
       <section className="main">
         <h1>TwiGPT</h1>
-        <p className="output"></p>
+        <p className="output">{message}</p>
         <div className="bottom-container">
           <div className="input-container">
-            <input />
-            <div className="submit">➢</div>
+            <input type="text" onChange={(e) => handleInputChange(e)}/>
+            <div onClick={getMessages} className="submit">➢</div>
           </div>
         </div>
         <p className="info">

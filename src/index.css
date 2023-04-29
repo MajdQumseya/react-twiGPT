@@ -97,6 +97,10 @@ input {
     rgba(0, 0, 0, 0.9) 0 -3px 5px;
 }
 
+input:focus {
+  outline: none;
+}
+
 .submit {
   position: absolute;
   right: 0;
