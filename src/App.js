@@ -5,15 +5,21 @@ const App = () => {
         <button>New Chat</button>
         <div className="history"></div>
         <nav>
-          <p>Made by <a href="https://github.com/MajdQumseya">@Twig</a> </p>
+          <p>
+            Made by <a href="https://github.com/MajdQumseya">@Twig</a>
+          </p>
         </nav>
-        
       </section>
 
       <section className="main">
         <h1>TwiGPT</h1>
         <p className="output"></p>
-        <input />
+        <div className="bottom-container">
+          <div className="input-container">
+            <input />
+            <div className="submit">➢</div>
+          </div>
+        </div>
         <p className="info">
           Chat GPT April 27 Version. Free Research Preview. Our goal is to make
           AI systems more natural and safe to interact with. Your feedback will
