@@ -5,7 +5,10 @@ import { useState, useEffect } from "react";
 const App = () => {
 
   const [message, setMessage] = useState(null);
-  const [prompt, setPrompt] = useState(" ");
+  const [prompt, setPrompt] = useState('');
+  const [previousChat, setPreviousChat] = useState([])
+  const [currentTitle, setCurrentTitle] = useState(null);
+
 
 
 
@@ -24,6 +27,7 @@ const App = () => {
       let data = await fetchResponse.json();
       console.log(data)
       setMessage(data.choices[0].message.content)
+     
     } catch (error) {
       console.log(error)
     }
@@ -32,6 +36,26 @@ const App = () => {
   const handleInputChange = (e) => {
     setPrompt(e.target.value)
   }
+
+  useEffect(() => {
+    console.log(currentTitle, prompt, message)
+    if(!currentTitle && prompt && message){
+      setCurrentTitle(prompt)
+    }
+    if(currentTitle && prompt && message) {
+      setPreviousChat(prevChats => (
+        [...prevChats, {
+          title: currentTitle, 
+          role: "user",
+          content: prompt
+        }, {
+           title: currentTitle,
+            role: message.role,
+            content: message.content
+        }]
+      ))
+    }
+  }, [message, currentTitle])
   
 
   return (
@@ -40,7 +64,11 @@ const App = () => {
     <div className="app">
       <section className="side-bar">
         <button>New Chat</button>
-        <div className="history"></div>
+        <div className="history">
+          <ul>
+            <li>BLUEGH</li>
+          </ul>
+        </div>
         <nav>
           <p>
             Made by <a href="https://github.com/MajdQumseya">@Twig</a>
@@ -49,11 +77,13 @@ const App = () => {
       </section>
 
       <section className="main">
-        <h1>TwiGPT</h1>
-        <p className="output">{message}</p>
+       {!currentTitle &&  <h1>TwiGPT</h1> }
+        <ul className="feed">
+          {message}
+        </ul>
         <div className="bottom-container">
           <div className="input-container">
-            <input type="text" onChange={(e) => handleInputChange(e)}/>
+            <input type="text" value={prompt} onChange={(e) => handleInputChange(e)}/>
             <div onClick={getMessages} className="submit">➢</div>
           </div>
         </div>

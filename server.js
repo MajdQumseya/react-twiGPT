@@ -7,7 +7,7 @@ const port = 8000;
 app.use(express.json());
 app.use(cors());
 
-const API_KEY = "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";
+// const API_KEY = (YOURAPIKEY)
 
 app.post("/completions", async (req, res) => {
     console.log(req)
